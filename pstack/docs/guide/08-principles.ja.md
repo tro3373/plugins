@@ -1,6 +1,6 @@
 # 原則の名前で舵を取る
 
-pstack は 23 の原則を個別の skill として同梱している。`/poteto-mode` は多段タスクの開始時に必ずその索引を読み、タスクが発火させた原則を適用し、適用した各原則の名前と、それが変えた決定を返答で名指しする。
+pstack は 24 の原則を個別の skill として同梱している。`/poteto-mode` は多段タスクの開始時に必ずその索引を読み、タスクが発火させた原則を適用し、適用した各原則の名前と、それが変えた決定を返答で名指しする。
 
 原則は呼び出すものではない。名前を使って舵を取るものである。各名前は、エージェントが既に読んだ完全なルールを指しているので、1 つのフレーズが段落 1 つ分の指示より正確に作業の向きを変える。
 
@@ -26,7 +26,7 @@ separate before serializing shared state. give each attempt its own worktree, no
 
 どのフレーズも効くのは、その背後にあるルールが具体的だからである。エージェントは依然として、そのルールがどの決定を変えたかを返答で述べねばならない。決定を伴わない原則の引用は、適用ではなく名前を出しただけだという兆候である。
 
-## 23 の原則、手短に
+## 24 の原則、手短に
 
 コアの原則は、どこまで作るか、いつ設計を考え直すかを決める:
 
@@ -39,7 +39,7 @@ separate before serializing shared state. give each attempt its own worktree, no
 - [Outcome-Oriented Execution](../../skills/principle-outcome-oriented-execution/SKILL.md) は、使い捨ての互換状態を保つ代わりに、書き直しをターゲットの設計へ収束させる。
 - [Experience First](../../skills/principle-experience-first/SKILL.md) は、実装の都合よりユーザにとっての結果を選ぶ。
 - [Exhaust the Design Space](../../skills/principle-exhaust-the-design-space/SKILL.md) は、前例がないときに競合する試作を 2, 3 個作る。
-- [Build the Lever](../../skills/principle-build-the-lever/SKILL.md) は、その作業をこなすか証明するスクリプトを作り、レビュワーが再実行できるようにする。
+- [Build the Lever](../../skills/principle-build-the-lever/SKILL.md) は、その作業をこなすか証明するスクリプトを作り、レビュワーが再実行できるようにする。エージェントが同じことを手で繰り返しているなら、それが欲しがっているツールや skill を書かせる。スクリプトが毎回同じ方法でこなせるステップならスクリプトを使い、エージェントは判断が要るところに取っておく。
 
 アーキテクチャの原則は、状態・バリデーション・互換性をどこに置くかを決める:
 
@@ -56,6 +56,7 @@ separate before serializing shared state. give each attempt its own worktree, no
 - [Fix Root Causes](../../skills/principle-fix-root-causes/SKILL.md) は、コードを変える前に再現し原因まで辿る。
 - [Sequence Work into Verifiable Units](../../skills/principle-sequence-verifiable-units/SKILL.md) は、次を始める前に小さな各単位をチェックで終える。
 - [Test Behavior, Not Implementation](../../skills/principle-test-behavior-not-implementation/SKILL.md) は、コードをそのユーザと同じ方法で呼び出し、リテラルな期待値をアサートし、インポートした全ての関数が `undefined` を返しても通ってしまうテストを削除する。
+- [Explain the Number](../../skills/principle-explain-the-number/SKILL.md) は、測った数値を誰かが信用したり報告したりする前に、その数値を制限しているものを名指しし、別のものを測っていた可能性を排除する。[`/benchmark-checklist`](../../skills/benchmark-checklist/SKILL.md) はこれを、実際の実行から答える 7 つの質問に変える。
 
 委譲の原則は、並行作業を正気に保つ:
 
@@ -64,7 +65,7 @@ separate before serializing shared state. give each attempt its own worktree, no
 
 そしてメタ原則が 1 つ:
 
-- [Encode Lessons in Structure](../../skills/principle-encode-lessons-in-structure/SKILL.md) は、2 度繰り返したアドバイスを lint、チェック、スクリプトに変える。
+- [Encode Lessons in Structure](../../skills/principle-encode-lessons-in-structure/SKILL.md) は、2 度繰り返したアドバイスを lint、チェック、スクリプトに変える。[`/correct`](../../skills/correct/SKILL.md) はこれをリポジトリ全体に適用する。[自分のものにする](./09-make-it-yours.ja.md#correct-で環境を直す) を参照。
 
 このリストを暗記しなくてよい。今はざっと眺めておき、ここにある名前なら防げたはずのことをエージェントがやっているのを見つけたときに戻ってくればよい。語彙はそうやって身に付く。
 

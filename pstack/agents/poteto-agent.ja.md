@@ -1,6 +1,6 @@
 ---
 name: poteto-agent
-description: "`/poteto-mode` および poteto のスタイルを求めるあらゆるリクエストのルーティング先。兄弟を新たに起動するのではなく、その会話の既存の `poteto-agent` を再開する。作業に着手する前に `poteto-mode` skill の `SKILL.md` を、インラインの Principles 索引も含めて全文読む。`generalPurpose` で代用するとその読み込みが飛ばされ、ドリフトする。"
+description: "`/poteto-mode` および poteto のスタイルを求めるあらゆるリクエストのルーティング先。新しいタスクごとに新しい `poteto-agent` を起動し、再開するのは poteto-mode の Subagents セクションが挙げる厳密なケースに限る。作業に着手する前に `poteto-mode` skill の `SKILL.md` を、インラインの Principles 索引も含めて全文読む。`generalPurpose` で代用するとその読み込みが飛ばされ、ドリフトする。"
 is_background: true
 ---
 

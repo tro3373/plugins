@@ -34,15 +34,15 @@ ls -t <agent-transcripts>/*.jsonl <agent-transcripts>/*/*.jsonl <agent-transcrip
 
 | レンズ | ロール行 | 既定の `model` | プロンプトテンプレート |
 |---|---|---|---|
-| Judgment | `reflect judgment, divergent, synthesizer` | `claude-opus-5-5-max` | `references/judgment-reviewer.md` |
-| Tooling | `reflect tooling` | `gpt-5.6-sol-max` | `references/tooling-reviewer.md` |
-| Divergent | `reflect judgment, divergent, synthesizer` | `claude-opus-5-5-max` | `references/divergent-reviewer.md` |
+| Judgment | `reflect judgment, divergent, synthesizer` | `claude-opus-5-5-xhigh` | `references/judgment-reviewer.md` |
+| Tooling | `reflect tooling` | `grok-4.7-xhigh-fast` | `references/tooling-reviewer.md` |
+| Divergent | `reflect judgment, divergent, synthesizer` | `claude-opus-5-5-xhigh` | `references/divergent-reviewer.md` |
 
 各テンプレートは、印の付いた箇所にトランスクリプトのパスか要約を差し込むだけで、そのまま渡す。レビュワーは `Task` のレスポンス本文で発見を返す。
 
 ### 3. 統合する
 
-`Task` 呼び出し 1 つ、`subagent_type: generalPurpose`、`model` は `reflect judgment, divergent, synthesizer` 行から (既定 `claude-opus-5-5-max`)、エージェントモード (`readonly: false`)。synthesizer の品質チェックには引用の抜き取り検証が含まれ、それに MCP アクセスが要ることがある。readonly は MCP を剥がす。`references/synthesizer.md` をそのまま使い、印の付いた箇所に各レビュワーの全出力をインライン展開する。synthesizer は構造化された Accepted / Rejected / Backlog のリストを返す。
+`Task` 呼び出し 1 つ、`subagent_type: generalPurpose`、`model` は `reflect judgment, divergent, synthesizer` 行から (既定 `claude-opus-5-5-xhigh`)、エージェントモード (`readonly: false`)。synthesizer の品質チェックには引用の抜き取り検証が含まれ、それに MCP アクセスが要ることがある。readonly は MCP を剥がす。`references/synthesizer.md` をそのまま使い、印の付いた箇所に各レビュワーの全出力をインライン展開する。synthesizer は構造化された Accepted / Rejected / Backlog のリストを返す。
 
 ### 4. 構造による強制のチェック
 

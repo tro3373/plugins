@@ -25,9 +25,9 @@ fork せよ。改善せよ。自分のものにせよ。PR は歓迎だ!
 1. [`/setup-pstack`](./skills/setup-pstack/SKILL.md) を実行し、reasoning budget を選び、使いたいモデルを選ぶ。
 2. 厳密さを要する作業をするときは常に [`/poteto-mode`](./skills/poteto-mode/SKILL.md) を使う。
 
-はじめてか? [pstack ガイド](./docs/guide/README.md) が、セットアップとプロンプトから検証・夜間実行まで、最初の実タスクを通しで案内する。
+はじめてか? [pstack ガイド](./docs/guide/README.md) が、セットアップとプロンプトから検証・夜間実行まで、最初の実タスクを通しで案内する。行き詰まった、またはどの skill が合うか分からない? [`/poteto-help`](./skills/poteto-help/SKILL.md) に聞く。
 
-以上だ。他の skill は状況次第のもので、mode skill が必要に応じて使ってくれる。標準では、mode はモデルの強みで仕事を分ける: コードの委任先 (feature、refactoring、bug fix、perf、hillclimb) は grok へ、最も難しい変更・散文・判断は opus 5.5 へ回る。既定のパネルは opus 5.5 / sol / grok だ。[`/setup-pstack`](./skills/setup-pstack/SKILL.md) でそのどれでも変えられる。
+以上だ。他の skill は状況次第のもので、mode skill が必要に応じて使ってくれる。標準では、mode はモデルの強みで仕事を分ける: コードの委任先 (feature、refactoring、bug fix、perf、hillclimb) は grok へ、最も難しい変更・散文・判断は opus 5.5 へ回る。既定のパネルは opus 5.5 / grok だ。[`/setup-pstack`](./skills/setup-pstack/SKILL.md) でそのどれでも変えられる。
 
 ## 使い方
 
@@ -88,7 +88,7 @@ morning.
 
 完全なルールと playbook は [`skills/poteto-mode/SKILL.md`](./skills/poteto-mode/SKILL.md) にある。
 
-[`/poteto-mode`](./skills/poteto-mode/SKILL.md) は sticky なモードでもある: 一度入るとターンをまたいで有効なままになり、playbook が一致するか、タスクに厳密さが要るときに自らを適用し、それ以外では邪魔をしない。抜けたいときは、そう言えばいつでも抜けられる。
+[`/poteto-mode`](./skills/poteto-mode/SKILL.md) をターンをまたいで有効に保つには、`/` メニューから選び、enter の代わりに option+enter (mac) または alt+enter (windows) を押す。そうすると [custom mode](https://cursor.com/docs/skills) になる。cursor はこれを agents window と cli で提供している。毎ターン、コンテキストに残り続け、playbook が一致するか、タスクに厳密さが要るときに自らを適用し、それ以外では邪魔をしない。素の enter では 1 つのメッセージにだけ付く。抜けたいときはそう言うか、モードを終了してオフにする。
 
 [`/poteto-mode`](./skills/poteto-mode/SKILL.md) は cursor の `/loop` コマンドと極めて相性が良い。厳密さを犠牲にせず、cursor を何時間も働かせられる。
 
@@ -110,6 +110,7 @@ morning.
 | skill | 使いどころ |
 |---|---|
 | [`/poteto-mode`](./skills/poteto-mode/SKILL.md) | 自明でないあらゆるタスクの既定の入口。 |
+| [`/poteto-help`](./skills/poteto-help/SKILL.md) | pstack がはじめて、またはどの skill、playbook、原則が合うか分からないとき。何をしようとしているかを聞き出し、その部分に答え、打ち込むプロンプトを渡す。`/poteto-help` と打ったときだけ動く。 |
 | [`/how`](./skills/how/SKILL.md) | サブシステムがどう動くのかのウォークスルーが欲しいとき。 |
 | [`/why`](./skills/why/SKILL.md) | 何かがなぜこう作られたのかを知りたいとき。実行時に利用可能な MCP を発見し、証拠のカテゴリごとに並列で問い合わせる (ソース管理、課題トラッカー、長文ドキュメント、リアルタイムチャット、インフラの可観測性、エラートラッキング、分析ウェアハウス)。 |
 | [`/recall`](./skills/recall/SKILL.md) | 作業を始める、または再開するにあたって、あるトピックについての最近のコンテキストを、自分のチャット履歴と共有された記録から再構築し、簡潔な現状ブリーフとして受け取りたいとき。 |
@@ -117,13 +118,15 @@ morning.
 | [`/architect`](./skills/architect/SKILL.md) | 関数境界をまたぐコードをこれから書くので、呼び出し側の使い方、型、モジュールの形を先に固めたいとき。 |
 | [`/arena`](./skills/arena/SKILL.md) | 同じ対象への並列な試行を N 個走らせ、それぞれの最良の部分を取り込みたいとき。 |
 | [`/swarm`](./skills/swarm/SKILL.md) | 異なるスライスやレースにまたがる並列ワーカーを N 個走らせ、集約された 1 本のレポートが欲しいとき。 |
-| [`/interrogate`](./skills/interrogate/SKILL.md) | diff があり、複数の異なるモデルにそれを壊させたいとき。厳格なコード品質の観点も含む。 |
+| [`/interrogate`](./skills/interrogate/SKILL.md) | diff があり、異なるモデルにそれを壊させたいとき。厳格なコード品質の観点も含む。 |
 | [`/automate-me`](./skills/automate-me/SKILL.md) | 実際の働き方から起こした、自分自身の `-mode` skill が欲しいとき。 |
 | [`/make-bot-ui`](./skills/make-bot-ui/SKILL.md) | ボタンが webhook 経由で Grok Bot を起こすページやダッシュボードが欲しいとき。sender-key の受け渡しと Tailscale も含む。 |
 | [`/setup-pstack`](./skills/setup-pstack/SKILL.md) | pstack がロールごとにどのモデルを使うかを選びたいとき。利用できるモデルを検出し、設定ルールを書き出す。 |
 | [`/reflect`](./skills/reflect/SKILL.md) | 長いタスクが着地し、その手順を skill の編集として残したいとき。 |
+| [`/correct`](./skills/correct/SKILL.md) | 同じ間違いでエージェントを何度も正しているとき。履歴から間違いのクラスを掘り出し、それぞれを効く範囲で最も高いレベルで直し (アーキテクチャ、次に型・lint・ci、次にテスト、ドキュメントは最後)、各ルールとそれを強制するものを対にした表を保つ。 |
 | [`/teach`](./skills/teach/SKILL.md) | 変更やサブシステムを、要約されるだけでなく実際に理解したいとき。how + why を実行し、図を 1 枚ずつ積み上げながら 1 本の平易な説明に織り上げる。 |
 | [`/tdd`](./skills/tdd/SKILL.md) | バグを直していて、安価なローカルテスト経路があるとき。失敗するテストを先に書き、それから修正する。 |
+| [`/benchmark-checklist`](./skills/benchmark-checklist/SKILL.md) | ベンチマークを走らせた、または高速化や劣化を測ったとき。報告や行動の前に、その数値を吟味する (律速要因、チューニング、エラー、繰り返し実行、エンドツーエンドでの意味)。 |
 | [`/no-comments`](./skills/no-comments/SKILL.md) | レビュー前にコメントを剥がす。Comment Sicko を起動し、受け入れた指摘を修正し、主張された制約については構造への符号化を提案する。 |
 | [`/typescript-best-practices`](./skills/typescript-best-practices/SKILL.md) | typescript を読む、または編集するとき。type-system-discipline の原則を構文に接地させる。 |
 | [`/figure-it-out`](./skills/figure-it-out/SKILL.md) | 同梱の playbook がどれも合わないとき。そのタスクのために厳密で監査可能な playbook を設計する。 |
@@ -177,8 +180,10 @@ tdd:               /tdd implement
 unslop:            can we unslop and tighten the new changes?
 reflect:           /reflect that took too long. capture what we learned so the next run doesn't
                    repeat it.
+correct:           /correct
 show-me-your-work: /show-me-your-work keep a decision trail i can review when i'm back.
 automate-me:       /automate-me
+help:              /poteto-help which skill should i use to review this branch?
 ```
 
 </details>
@@ -193,10 +198,10 @@ pstack は [Comment Sicko](./agents/comment-sicko.md) も同梱している。`s
 
 ## 原則
 
-短い skill が 23 本あり、それぞれが 1 つの原則を担う。`poteto-mode` はそれらをインラインでインデックス化し、タスク開始時にそのインデックスを読む。独立したファイルが存在するのは、他の skill が原則を名前で参照できるようにするため、そしてインデックスが各原則の完全なルールを指せるようにするためだ。
+短い skill が 24 本あり、それぞれが 1 つの原則を担う。`poteto-mode` はそれらをインラインでインデックス化し、タスク開始時にそのインデックスを読む。独立したファイルが存在するのは、他の skill が原則を名前で参照できるようにするため、そしてインデックスが各原則の完全なルールを指せるようにするためだ。
 
 <details>
-<summary>23 個の原則すべて</summary>
+<summary>24 個の原則すべて</summary>
 
 | 原則 | グループ | ルール |
 |---|---|---|
@@ -220,6 +225,7 @@ pstack は [Comment Sicko](./agents/comment-sicko.md) も同梱している。`s
 | [fix-root-causes](./skills/principle-fix-root-causes/SKILL.md) | 検証 | 各症状を根本原因まで辿り、そこで直す。まず再現し、根本原因に届くまで why を問い、クラッシュを黙らせる nil チェックのガードに抗う。 |
 | [sequence-verifiable-units](./skills/principle-sequence-verifiable-units/SKILL.md) | 検証 | 多段の作業 (一括処理、移行、似た編集の連続) と、コミットや PR の積み方に適用する。作業を、それぞれが検証可能な状態で終わる小さな単位に分割し、次へ進む前に各単位を確認し、その並び自体がレビュワーに対して自らを証明するように届ける順序を決める。 |
 | [test-behavior-not-implementation](./skills/principle-test-behavior-not-implementation/SKILL.md) | 検証 | テストを書く、変更する、あるいは残すときに適用する。コードはそのユーザと同じ呼び方で呼び、観測される結果を具体的な期待値と照らして assert する。import した関数がすべて undefined を返しても通ってしまうテストなら、assert を書き直すかテストを消す。 |
+| [explain-the-number](./skills/principle-explain-the-number/SKILL.md) | 検証 | 測った数値 (高速化、劣化、スループット、レイテンシ、eval の結果) を信じる、報告する、あるいはそれに基づいて行動する前に適用する。何がそれを律速しているかを突き止め、思っている作業とは別のものを測っていないかを排除する。 |
 | [guard-the-context-window](./skills/principle-guard-the-context-window/SKILL.md) | 委譲 | かさばるものはサブエージェントへ回す。メインスレッドには生のペイロードではなく要約を置く。 |
 | [never-block-on-the-human](./skills/principle-never-block-on-the-human/SKILL.md) | 委譲 | 進め、結果を提示し、人間には事後に軌道修正させる。確認は不可逆な操作のために取っておく。 |
 | [encode-lessons-in-structure](./skills/principle-encode-lessons-in-structure/SKILL.md) | メタ | ルールを、さらなる文章ではなく lint、メタデータフラグ、ランタイムチェック、スクリプトとして符号化する。 |
@@ -248,7 +254,7 @@ cursor には既に優れた plan モードがあり、pstack とよく噛み合
 
 モデルも設定できる。[`/setup-pstack`](./skills/setup-pstack/SKILL.md) と打つ。アクセスできるモデルを検出し、各ロール (コード、判断、レビューパネル) をモデルへ対応付ける、常に適用される小さなルールを書き出す。どの skill もそれを読み、ルールが無ければ妥当な既定値にフォールバックする。だから上書きしたいものだけを上書きすればよい。
 
-0.15.3 より前に書かれたルールは、古い既定モデルを固定したままになる。該当するロールの行を削除するか、ファイルごと削除してから `/setup-pstack` を再実行する。再実行では、既定値と異なるモデルが設定されているロールはそのまま保たれる。
+既定値が変わったとき、変更前に書かれたルールは古い既定値を固定したままになる。該当するロールの行を削除するか、ファイルごと削除してから `/setup-pstack` を再実行する。再実行では、既定値と異なるモデルが設定されているロールはそのまま保たれる。
 
 ## 自動化
 

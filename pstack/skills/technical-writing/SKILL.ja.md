@@ -48,8 +48,6 @@ disable-model-invocation: true
 
 モードを混ぜない: tutorial の中に reference の表を置かない、reference の中で tutorial のように手を引かない、how-to の中で議論しない。分割してリンクする。
 
-出典: diataxis.fr、2026-07-18 取得。
-
 ## 読者に向けて文を書く (Google developer style)
 
 - 読者に "you" で、現在形で語りかける。"Will" は本当に後で起きることにだけ使う。
@@ -64,8 +62,6 @@ disable-model-invocation: true
 - 順序には番号付きリスト、それ以外はすべて箇条書き。リストは完全な文で導入する。項目は並列に保つ。
 - コードはコードフォントに。UI 要素は太字に。シリアルコンマを使う。"etc." は捨て、リストが一部であることは先に述べる。
 
-出典: developers.google.com/style、2026-07-18 取得。
-
 ## 記述を一度に 1 つずつ載せる (STE ルール)
 
 - 1 文 1 指示。それ以外のどこでも 1 文 1 思考。
@@ -76,8 +72,6 @@ disable-model-invocation: true
 - 1 つの動作につき 1 つの語を選び、貫く: ここでは "start"、あそこでは "initiate" とはしない。
 - 手順は直接の命令として書き、決して語りとして書かず、決して受動態で書かない: "the component must be installed" ではなく "Install the component"。
 - 可能な限り "-ing" 形を避ける。文法上の役割を持ちすぎ、誤読を生む。
-
-出典: asd-ste100.org (Issue 9, 2025)、2026-07-18 取得。番号付きルールと辞書は仕様 PDF にある。上記の原則は移植可能な中核だ。
 
 ## どの文も二通りに読めないようにする (Global English)
 
@@ -93,8 +87,6 @@ disable-model-invocation: true
 - スラッシュは使わない: "a/b" や "and/or" ではなく "a, b, or both" と書く。
 - どこでも 1 つのものは 1 つの名前で呼ぶ。1 つのものを "the gate"、"the ratchet"、"the budget check" と呼ぶドキュメントは、3 つのものを教えている。変わっていない文を編集のたびに言い換えるのも同じコストを払う。変わっていないものを churn しない。
 - 慣用句、口語表現、ラテン語の略記、比喩を避ける。非ネイティブの読者も、翻訳者も、エージェントも、平明な構文を最もよく解析する。
-
-出典: Kohl, The Global English Style Guide (SAS Press)。ガイドライン本文は Internet Archive と SAS のサンプル章から 2026-07-18 に取得。
 
 ## 声とリポジトリ固有の事項
 

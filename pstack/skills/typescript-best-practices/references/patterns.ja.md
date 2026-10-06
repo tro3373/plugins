@@ -153,27 +153,38 @@ function parseUser(input: unknown): User {
 すべての `as` は潜在的なランタイムクラッシュである。型システムがその主張を検証した後にのみキャストする。
 
 ```ts
+import { z } from "zod";
+
 // Don't
 const user = data as User;
 
-// Do. Earn the cast at the boundary.
-function parseUser(data: unknown): User {
-  if (typeof data !== "object" || data === null) {
-    throw new Error("expected object");
-  }
-  if (!("id" in data) || typeof (data as Record<string, unknown>).id !== "string") {
-    throw new Error("expected id");
-  }
-  // ... validate all fields
-  return data as User; // OK, earned cast after full validation
+// Don't
+function isUser(data: unknown): data is User {
+  return typeof data === "object" && data !== null && "id" in data;
 }
+
+// Do
+const userSchema = z.object({ id: z.string(), name: z.string() });
+type User = z.infer<typeof userSchema>;
+
+function parseUser(data: unknown): User {
+  return userSchema.parse(data);
+}
+```
+
+型が先にある場合は、validator に、それが証明する型を注釈する。そうするとコンパイラは、型より証明する範囲が狭い validator を拒否する。下のオブジェクトから `name` を取り除くと、代入がコンパイルに失敗する。
+
+```ts
+type User = { id: string; name: string };
+
+const userSchema: z.ZodType<User> = z.object({ id: z.string(), name: z.string() });
 ```
 
 既存コードから `as` をリファクタで取り除くときは、TypeScript が推論できない理由を特定する:
 
 - 判別子が無い: 追加し、discriminated union に切り替える。
 - ソースの型が広すぎる (例: `Record<string, unknown>`): 絞り込む。
-- 型の無い境界: パース関数かスキーマを追加する。
+- 型の無い境界: その形を所有するスキーマでパースする。スキーマを追加するのは、まだ存在しない場合だけにする。
 - 本当に表現不能: branded type か `satisfies` を使う。
 
 ## 絞り込みの優先順位

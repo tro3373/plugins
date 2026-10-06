@@ -32,6 +32,14 @@ build 系の playbook はひとつの規律を共有している。観測した�
 
 ひとつの数値を継続的に改善するなら [Hillclimb playbook](../../skills/poteto-mode/playbooks/hillclimb.md) がある。メトリクス、目標、試行回数の下限を与えると、測定ハーネスを凍結したまま一度にひとつの仮説をループする。勝ったものを残し、それ以外はすべて revert する。
 
+どちらの perf playbook も、自分の数値に対して [`/benchmark-checklist`](../../skills/benchmark-checklist/SKILL.md) を走らせる。Perf issue はベースラインとその後のすべての数値を吟味し、Hillclimb はハーネスを凍結する前にそれを吟味する。自分で打つべき場面は [検証して出す](./06-verify-and-ship.ja.md#benchmark-checklist-で測った数値を吟味する) が示す。
+
+修正の前に原因が欲しいこともある。リーク、アイドル時の CPU スピン、表示の乱れといった生きた症状なら、[Runtime forensics playbook](../../skills/poteto-mode/playbooks/runtime-forensics.md) が実行中のプロセスを計装する。既に採取したプロファイルなら、[Trace forensics playbook](../../skills/poteto-mode/playbooks/trace-forensics.md) がその成果物を読み、ホットなフレームをソースに対応付ける。どちらも修正ではなく診断を返す:
+
+```text
+/poteto-mode here's a cpuprofile from the slow startup. tell me where the time goes and which source lines own it. no fix yet.
+```
+
 ## `/tdd` で先に落ちるテストを書く
 
 バグに安価なローカルのテスト経路があるとき、プロンプト全体は 2 語で済む:
@@ -42,9 +50,9 @@ build 系の playbook はひとつの規律を共有している。観測した�
 
 文脈があれば、それで十分だ。[`/tdd`](../../skills/tdd/SKILL.md) は意図した理由で落ちる最小のテストを書き、次に修正を書き、そしてテストを再実行する。テストに広範なハーネスの用意や壊れやすいモックが要るなら、この skill はそう述べ、代わりに最も近い実行可能なチェックを使う。本物のコマンドのほうが強い証拠になる場面でテストを無理強いしないこと。
 
-## TypeScript のルールは自分で読み込ませる
+## TypeScript のルールは名前で読み込む
 
-[`typescript-best-practices`](../../skills/typescript-best-practices/SKILL.md) には、あなたのワークフロー上のスラッシュコマンドが無い。エージェントが `.ts` や `.tsx` ファイルに触れるたびに読み込まれ、型システムの原則を具体的なルールに変える。判別可能な union、境界での `unknown`、網羅的なバリアント、スキーマ由来の型。
+[`typescript-best-practices`](../../skills/typescript-best-practices/SKILL.md) は型システムの原則を具体的なルールに変える。判別可能な union、境界での `unknown`、網羅的なバリアント、スキーマ由来の型。自動では読み込まれないので、タスクが `.ts` や `.tsx` ファイルに触れるときは `/typescript-best-practices` と打つ。
 
 ## コミット前に掃除する
 

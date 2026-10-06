@@ -125,7 +125,7 @@ gh pr view <number> --json title,body,author,createdAt,mergedAt,labels,closingIs
 統合者のサブエージェントを 1 つ起動する:
 
 - `subagent_type`: `generalPurpose`
-- `model`: `why synthesizer` の行、既定は `claude-opus-5-5-max`
+- `model`: `why synthesizer` の行、既定は `claude-opus-5-5-xhigh`
 - `readonly`: `false` (agent モード)。統合者の品質チェックは引用を抜き取り検証し、それには MCP アクセスが要ることがある。readonly / Ask モードは MCP を剥がしてこれを台無しにする。
 
 統合者に渡すもの:

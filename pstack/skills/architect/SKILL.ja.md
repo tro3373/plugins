@@ -30,11 +30,11 @@ Phase A を飛ばしてよいのは、統合すべき周辺システムが存在
 
 design-sketch タスクと Phase A の grounding 成果物を渡して **arena** skill を走らせる。各ランナーのプロンプトとして `references/runner-prompt.md` を渡す。各候補は `references/rationale-template.md` の形の設計パッケージを生成する。
 
-ランナーは、`arena runners` の行の代わりに `pstack-models.mdc` ルールの `architect runners` の行から取る。ルールやその行が無い場合は `claude-opus-5-5-max`、`gpt-5.6-sol-max`、`grok-4.7-xhigh-fast` を使う。エイリアスと却下エントリは **arena** skill の Phase A のランナー規則に従う。
+ランナーは、`arena runners` の行の代わりに `pstack-models.mdc` ルールの `architect runners` の行から取る。ルールやその行が無い場合は `claude-opus-5-5-xhigh` と `grok-4.7-xhigh-fast` を使う。エイリアスと却下エントリは **arena** skill の Phase A のランナー規則に従う。
 
 2 回設計する。最初のものが十分に見えても、統合の前に構造的に異なる候補を最低 2 つ要求する。これは **exhaust-the-design-space** の原則 skill を具体化したものである。1 つの形の内部での部分的な修正ではなく、形そのものの代替案を出す。
 
-統合の前に、すべての候補を [`references/design-red-flags.md`](references/design-red-flags.md) に照らして選別する。浅いモジュール、情報の漏洩、時間的分解、パススルーメソッドは却下または修正する。
+統合の前に、すべての候補を [`references/design-red-flags.md`](references/design-red-flags.ja.md) に照らして選別する。次のコントリビュータは、自分が開いたファイルしか見ず、最も近い例をコピーし、コンパイルが通る最短の道を取るエージェントだと想定する。1 つのファイルから見て正しそうな変更が repo 全体にとっても正しくなる設計を優先する。
 
 存続可能な候補をインターフェースの深さで比較する。より小さくシンプルな公開面の裏に、より多くの複雑さを隠す設計を選ぶ。リッチなインターフェースは、能力をレイヤーに散らすのではなく集約することで、呼び出し連鎖を短く保てる。
 

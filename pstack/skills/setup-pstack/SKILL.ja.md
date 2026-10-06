@@ -19,14 +19,14 @@ description: pstack がロールごとにどのモデルを、どの reasoning b
 
 ### 3. budget、マッピング、確認
 
-**(a) budget を尋ねる。** 自由記述より AskQuestion を優先する。次の 4 つの選択肢を、このラベルのまま正確に提示する。ルールに既存の budget が記録されている場合はそれも名前を挙げる。
+**(a) budget を尋ねる。** 自由記述より AskQuestion を優先する。次の 4 つの選択肢を、このラベルのまま正確に提示する。ルールに既存の budget が記録されている場合はそれも名前を挙げる。ルールが無い場合は、`large` が skill のデフォルトに一致すると伝える。
 
-- `unlimited — keep max`
+- `unlimited — max reasoning`
 - `large — xhigh reasoning`
 - `medium — high reasoning`
 - `small — medium reasoning`
 
-**(b) 適用する。** 作業用テーブルを skill のデフォルトから組み立て、再実行時はファミリ・リスト・エイリアス (`inherit-parent`、`auto`) で変更済みのロールをそのまま保つ。`unlimited` はそのテーブルのすべての effort をそのままにする。`large`、`medium`、`small` は、パネルのエントリも含め、すべての実在 slug の effort トークンを `xhigh`、`high`、`medium` のいずれかに設定する。effort トークンとは、`max` > `xhigh` > `high` > `medium` > `low` の段階のうち最後のトークン、または末尾に `fast` が付く場合はその手前のトークンである。結果が検出済みの slug でなければ、同じファミリの中で目標以下の最も高い effort を持つ検出済み slug を使い、それも無ければそのロールを選び直しが必要な印にする。`inherit-parent` と `auto` は変化しない。したがって `small` は `claude-opus-5-5-max` を `claude-opus-5-5-medium` に、`grok-4.7-xhigh-fast` を `grok-4.7-medium-fast` に変える。
+**(b) 適用する。** 作業用テーブルを skill のデフォルトから組み立て、再実行時はファミリ・リスト・エイリアス (`inherit-parent`、`auto`) で変更済みのロールをそのまま保つ。`unlimited`、`large`、`medium`、`small` は、パネルのエントリも含め、すべての実在 slug の effort トークンを `max`、`xhigh`、`high`、`medium` のいずれかに設定する。effort トークンとは、`max` > `xhigh` > `high` > `medium` > `low` の段階のうち最後のトークン、または末尾に `fast` が付く場合はその手前のトークンである。結果が検出済みの slug でなければ、同じファミリの中で目標以下の最も高い effort を持つ検出済み slug を使い、それも無ければそのロールを選び直しが必要な印にする。`inherit-parent` と `auto` は変化しない。したがって `unlimited` は `claude-opus-5-5-xhigh` を `claude-opus-5-5-max` に変える。Grok の slug は `xhigh` が上限なので、`unlimited` ではフォールバックにより Grok は `xhigh` になり、`grok-4.7-xhigh-fast` はそのまま残る。`large` は両方のデフォルトをそのまま保つ。`small` はそれらを `claude-opus-5-5-medium` と `grok-4.7-medium-fast` に変える。
 
 **(c) ロールを示して確認する。** すべてのロールをモデルとともに示し、検出済みの集合に無い実在の slug には選び直しが必要である旨の印を付ける。手順 2 で取り除いた行もそれぞれ列挙する。そのまま受け入れるか、特定のロールを変更するかを尋ね、選択肢として検出されたモデルに加えて `inherit-parent` と `auto` (どちらも「このロールは親のチャットモデルで走る」という意味で、Auto ユーザが Auto のままでいられる方法) を提示する。自由記述より AskQuestion を優先する。パネル系のロール (arena の runners、architect の runners、interrogate の reviewers) では値がリストになり、エントリ 1 つにつきサブエージェントが 1 本走る。エイリアスのエントリも含まれるので、リストの長さがその本数を決める。`arena cross-judge pool` もリストだが、Arena はその中から、可能な限り親とは異なるモデルファミリの値を 1 つ選ぶ。`swarm workers` は、レースや比較でアームごとに別のモデルが割り当てられない限り、すべての worker の既定モデルとなる。
 
@@ -45,24 +45,24 @@ alwaysApply: true
 ---
 # pstack model configuration. One line per role. Delete a line to fall back to the skill default.
 # `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit Task `model`). Alias entries in a panel list still count toward its fan-out.
-# budget: unlimited (max)
+# budget: large (xhigh)
 feature, refactoring: grok-4.7-xhigh-fast
 bug-fix: grok-4.7-xhigh-fast
 perf-issue: grok-4.7-xhigh-fast
 hillclimb: grok-4.7-xhigh-fast
-judgment and prose: claude-opus-5-5-max
-hardest tasks: claude-opus-5-5-max
+judgment and prose: claude-opus-5-5-xhigh
+hardest tasks: claude-opus-5-5-xhigh
 how explorer: grok-4.7-xhigh-fast
-how explainer: claude-opus-5-5-max
+how explainer: claude-opus-5-5-xhigh
 why investigators: grok-4.7-xhigh-fast
-why synthesizer: claude-opus-5-5-max
-reflect tooling: gpt-5.6-sol-max
-reflect judgment, divergent, synthesizer: claude-opus-5-5-max
-arena runners: claude-opus-5-5-max, gpt-5.6-sol-max, grok-4.7-xhigh-fast
-arena cross-judge pool: claude-opus-5-5-max, gpt-5.6-sol-max, grok-4.7-xhigh-fast
+why synthesizer: claude-opus-5-5-xhigh
+reflect tooling: grok-4.7-xhigh-fast
+reflect judgment, divergent, synthesizer: claude-opus-5-5-xhigh
+arena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
+arena cross-judge pool: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
 swarm workers: grok-4.7-xhigh-fast
-architect runners: claude-opus-5-5-max, gpt-5.6-sol-max, grok-4.7-xhigh-fast
-interrogate reviewers: claude-opus-5-5-max, gpt-5.6-sol-max, grok-4.7-xhigh-fast
+architect runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
+interrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
 ```
 
 ### 6. 報告する

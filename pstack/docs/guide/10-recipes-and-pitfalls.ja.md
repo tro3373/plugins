@@ -12,6 +12,30 @@ use /how first to understand how this initialization works. then use /why to fig
 
 まず仕組み、次に経緯。各 skill のレポートはどのソースを検索したかを教えてくれるので、その答えが何に接地しているか分かる。
 
+## コードに触る前にノイズの多いレポートを言い直させる
+
+```text
+/poteto-mode read this thread. restate the underlying issue in your own words, in plain english. don't change any code yet.
+```
+
+読み違いは言い直しの中に現れ、そこなら直すのにメッセージ 1 通しかかからない。エージェントが自分の見立てを述べるまで、自分の仮説は伏せておく。
+
+## 選ぶ前に試作する
+
+```text
+/poteto-mode prototype a few options for the settings layout. put them behind a switcher and send me screenshots of each.
+```
+
+説明からではなく、動くものから選べる。エージェントはその途中で、レイアウトやタイミングの問いに自分で答える。
+
+## 固まった設計を計画に変える
+
+```text
+/poteto-mode turn this design into a plan. small verifiable PRs, each with its own proof.
+```
+
+頼むのは設計が固まってからにする。計画そのものが成果物であり、それを実行する playbook を名指しする。
+
 ## 設計についてセカンドオピニオンを得る
 
 ```text
@@ -43,6 +67,38 @@ ask /arena for a second opinion on this thread and our approach
 ```
 
 「if there's a cheap test path」が重要である。壊れやすいモックを通してテストを無理に通しても、実際のコマンドを走らせるより証明できることは少ない。playbook はそう言ってよいことになっている。
+
+## レポートを証明付きで再現して直す
+
+```text
+/poteto-mode repro this with /verify-<app>. if it repros on main, fix it and show me a video as proof.
+```
+
+「if it repros on main」があれば、バグが既に消えているときに実行を早めに止められる。動画があれば、diff を読む前に修正を確かめられる。
+
+## 数値を出す前に吟味する
+
+```text
+/benchmark-checklist vet this 40% speedup before it goes in the pr description
+```
+
+faster、slower、no measurable difference、inconclusive のいずれかが、実行回数、範囲、数値を制限しているものとともに返る。
+
+## 同じ間違いを正すのをやめる
+
+```text
+/correct agents keep adding new config flags without registering them in the schema
+```
+
+修正はアーキテクチャ、型、lint、テストとしてリポジトリに入るので、次のエージェントはその間違いを犯せない。
+
+## 作業を始めずに方法を尋ねる
+
+```text
+/poteto-help how do i get poteto-mode to stay on every turn?
+```
+
+答え、送るべきプロンプト、ソースへのリンクが返る。そのプロンプトを送るまで何も走らない。
 
 ## 離席中も実行を正直に保つ
 
@@ -82,7 +138,13 @@ apply prove it works. show me the real output, not the build log.
 
 - **プロンプトで skill を列挙すること。** 「use /how then /architect then /arena」は、playbook が既に順序付けているステップを並べ替えてしまう。ゴールと制約を述べること。skill を名指しするのは、既定を上書きするときだけにする。
 - **曖昧な完了条件。** 「make it better」では `/loop` に確認するものが何も無い。合格か不合格かを判定できるコマンドか成果物を与えること。
-- **1 つの worktree で並列エージェントを走らせること。** 互いに上書きし合い、diff が考古学になる。「own worktree per attempt」と言えば、隔離はタダで手に入る。
+- **原因についての自分の仮説から切り出すこと。** エージェントは指さされた場所を探す。まず問題を言い直させ、それから自分の勘を伝える。
+- **最初の設計をそのまま採ること。** 1 回の試行は、モデルが最初に思いついた形に固定してしまう。試作か `/architect` を求め、証拠から選ぶ。
+- **抽象的な計画を磨き上げること。** 裏にコードの無い計画を敵対的にレビューすると、決して起きないリスクを捏造する。未決の問いは試作で片付け、それから作られたものをレビューする。
+- **1 つの worktree で並列エージェントを走らせること。** 互いに上書きし合い、diff が考古学になる。クラウドエージェントとして走らせるか、「own worktree per attempt」と言う。
+- **ループを信頼する前にループさせること。** 自分の作業を検証できないループは、未検証の作業を速くするだけである。まず検証 skill を動くようにする。
+- **吟味していない数値を信用すること。** 温まったキャッシュや飛ばされたコードパスは、高速化を偽装しうる。数値をどこかへ出す前に `/benchmark-checklist` を走らせる。
+- **同じ間違いを手で正し続けること。** チャットでの訂正は 1 回の実行を助けるだけである。`/correct` はリポジトリを直し、後のどの実行も同じ間違いを繰り返さないようにする。
 - **カバレッジ目的で `/arena` を使うこと。** `/arena` は 1 つの設計またはコードのブリーフを繰り返し、ベースを選んで最良の部分を接ぎ木する。`/swarm` はスライスや宣言されたレースのアームを分割し、1 つのレポートへ集約する。
 - **レビューコメントをすべて受け入れること。** bot も人間も、本物の指摘とノイズを同じリストに出してくる。`/interrogate` は指摘を、理由付きで act-on と dismissed のバケツへ仕分ける。どちらの方向にも上書きできる。
 - **`auto` をモデルの slug として扱うこと。** `auto` と `inherit-parent` は「モデルのフィールドを省略して、サブエージェントが親チャットのモデルを継承する」という意味である。[Setup](./01-setup.ja.md) がロールを扱っている。

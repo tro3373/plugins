@@ -33,20 +33,19 @@ disable-model-invocation: true
 
 ## ステップ 3、レビュワーを起動する
 
-Task ツールを使い、1 つのメッセージですべてのレビュワーを起動する。`~/.cursor/rules/pstack-models.mdc` の `interrogate reviewers` 行を使い、1 エントリにつき 1 レビュワーとし、下の Reviewer A/B/C のラベルを設定されたエントリ数に合わせて増減させる。ルールまたはその行が無ければ表の既定値を使う。
+Task ツールを使い、1 つのメッセージですべてのレビュワーを起動する。`~/.cursor/rules/pstack-models.mdc` の `interrogate reviewers` 行を使い、1 エントリにつき 1 レビュワーとし、下の Reviewer A/B のラベルを設定されたエントリ数に合わせて増減させる。ルールまたはその行が無ければ表の既定値を使う。
 
 | サブエージェント | 既定モデル |
 |----------|---------------|
-| Reviewer A | `claude-opus-5-5-max` |
-| Reviewer B | `gpt-5.6-sol-max` |
-| Reviewer C | `grok-4.7-xhigh-fast` |
+| Reviewer A | `claude-opus-5-5-xhigh` |
+| Reviewer B | `grok-4.7-xhigh-fast` |
 
 各レビュワーについて:
 - `subagent_type`: `generalPurpose`
 - `model`: 設定された `interrogate reviewers` のエントリ、設定行が無ければ表の既定値。`auto` または `inherit-parent` のエントリでは `model` を省略し、そのレビュワーを親のモデルで動かす。
 - `readonly`: `true`
 
-Task ツールが設定済みのエントリを拒否したら、そのファミリの表の既定値でそのレビュワーを動かし、その旨を述べる。ファミリは接頭辞で判定する: `claude-*`、`gpt-*`、`grok-*`。ファミリが一致しなければ Reviewer A の既定値を使う。表の既定値も拒否されたら、Task ツールのエラーメッセージにある有効な slug を確認し、最も近い等価物を選び (同じファミリの最高推論ティアを優先)、それで起動し、既定表を更新する別の PR を開く。slug の問題でレビューを止めないこと。エイリアスのエントリを拒否された slug として扱ったり、どちらのフォールバックも適用したりしては決してならない。
+Task ツールが設定済みのエントリを拒否したら、そのファミリの表の既定値でそのレビュワーを動かし、その旨を述べる。ファミリは接頭辞で判定する: `claude-*` と `grok-*`。ファミリが一致しなければ Reviewer A の既定値を使う。表の既定値も拒否されたら、Task ツールのエラーメッセージにある有効な slug を確認し、最も近い等価物を選び (同じファミリかつ同じ推論ティアを優先)、それで起動し、既定表を更新する別の PR を開く。slug の問題でレビューを止めないこと。エイリアスのエントリを拒否された slug として扱ったり、どちらのフォールバックも適用したりしては決してならない。
 
 `references/reviewer-prompt.md` を読み、テンプレートを次で埋める。
 1. 述べた意図

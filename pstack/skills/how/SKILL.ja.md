@@ -34,7 +34,7 @@ disable-model-invocation: true
 探索と説明を 1 パスで行う Task サブエージェントを 1 体スポーンする:
 
 - `subagent_type`: `generalPurpose`
-- `model`: `how explainer` 行、既定 `claude-opus-5-5-max`
+- `model`: `how explainer` 行、既定 `claude-opus-5-5-xhigh`
 - `readonly`: `true`
 
 `references/explainer-prompt.md` から、explorer の findings セクションを除いてプロンプトを組み立てる。Step 4 へ進む。
@@ -44,7 +44,7 @@ disable-model-invocation: true
 すべての explorer が返ってきたら、その findings を 1 つの説明へ統合する Task サブエージェントを 1 体スポーンする:
 
 - `subagent_type`: `generalPurpose`
-- `model`: `how explainer` 行、既定 `claude-opus-5-5-max`
+- `model`: `how explainer` 行、既定 `claude-opus-5-5-xhigh`
 - `readonly`: `true`
 
 `references/explainer-prompt.md` から、すべての explorer の findings を書き込んでプロンプトを組み立てる。
