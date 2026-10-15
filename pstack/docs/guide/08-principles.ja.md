@@ -33,7 +33,7 @@ separate before serializing shared state. give each attempt its own worktree, no
 - [Laziness Protocol](../../skills/principle-laziness-protocol/SKILL.md) は削除と、問題を解く最小の変更を選ぶ。
 - [Foundational Thinking](../../skills/principle-foundational-thinking/SKILL.md) はロジックを書く前にコアのデータ構造を選ぶ。
 - [Redesign from First Principles](../../skills/principle-redesign-from-first-principles/SKILL.md) は新しい要件を、初日からそこにあったかのように統合する。
-- [Attack the Premise](../../skills/principle-attack-the-premise/SKILL.md) は、失敗した修正を 2 つ以上並べたときに共通していた前提を、どのアクターが不均衡を抱えているかの棚卸しの後に問い直す。
+- [Attack the Premise](../../skills/principle-attack-the-premise/SKILL.md) は、失敗した修正を 2 つ以上並べたときに共通していた前提を書き出し、次の修正の前にそれを直接テストする。
 - [Subtract Before You Add](../../skills/principle-subtract-before-you-add/SKILL.md) は、その上に作り始める前に不要なものを取り除く。
 - [Minimize Reader Load](../../skills/principle-minimize-reader-load/SKILL.md) は、読み手が頭に抱えねばならない層と隠れた状態を畳む。
 - [Outcome-Oriented Execution](../../skills/principle-outcome-oriented-execution/SKILL.md) は、使い捨ての互換状態を保つ代わりに、書き直しをターゲットの設計へ収束させる。
@@ -55,7 +55,7 @@ separate before serializing shared state. give each attempt its own worktree, no
 - [Prove It Works](../../skills/principle-prove-it-works/SKILL.md) は代用物ではなく本物の成果物を検証する。
 - [Fix Root Causes](../../skills/principle-fix-root-causes/SKILL.md) は、コードを変える前に再現し原因まで辿る。
 - [Sequence Work into Verifiable Units](../../skills/principle-sequence-verifiable-units/SKILL.md) は、次を始める前に小さな各単位をチェックで終える。
-- [Test Behavior, Not Implementation](../../skills/principle-test-behavior-not-implementation/SKILL.md) は、コードをそのユーザと同じ方法で呼び出し、リテラルな期待値をアサートし、インポートした全ての関数が `undefined` を返しても通ってしまうテストを削除する。
+- [Test Behavior, Not Implementation](../../skills/principle-test-behavior-not-implementation/SKILL.md) は、コードのユーザが観測できるものをアサートし、その挙動が壊れたらテストが落ち、内部を変えても通り続けるようにする。
 - [Explain the Number](../../skills/principle-explain-the-number/SKILL.md) は、測った数値を誰かが信用したり報告したりする前に、その数値を制限しているものを名指しし、別のものを測っていた可能性を排除する。[`/benchmark-checklist`](../../skills/benchmark-checklist/SKILL.md) はこれを、実際の実行から答える 7 つの質問に変える。
 
 委譲の原則は、並行作業を正気に保つ:

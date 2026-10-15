@@ -63,10 +63,13 @@ pstack は Cursor 向けに作られている。skill は Agent Skills 形式を
 | ユーザがしたいこと | Skill |
 |---|---|
 | 自明でないタスクを厳密にこなす | [`/poteto-mode`](../poteto-mode/SKILL.md) |
+| 着手前に、エージェントが自分のゴールと問題を理解したかを確かめる | [`/in-your-own-words`](../in-your-own-words/SKILL.md) |
+| 着手前にタスクをより高く狙う: より専門的に、成果志向で、過剰に仕様化しない | [`/sharpen`](../sharpen/SKILL.md) |
 | コードが今どう動くか、新しいコードをどこに置くべきかを知る | [`/how`](../how/SKILL.md) |
 | コードがなぜこの形なのか、数値がどこから来たのかを知る | [`/why`](../why/SKILL.md) |
 | 変更やサブシステムを平易な説明で理解する | [`/teach`](../teach/SKILL.md) |
 | あるトピックについての自分の最近の作業に追いつく | [`/recall`](../recall/SKILL.md) |
+| このチャットでの前回のメッセージ以降の変化に、短い平易な文と小さな図で追いつく。各アクション項目を決めるのに足る文脈つき | [`/ketchup`](../ketchup/SKILL.md) |
 | 小さな diff がその外側で何を壊し得るかを知る | [`/blast-radius`](../blast-radius/SKILL.md) |
 | 関数の境界をまたぐコードの前に、型とモジュールの形を決める | [`/architect`](../architect/SKILL.md) |
 | 1 つのブリーフに対する複数の試みを得て、最良のものに統合する | [`/arena`](../arena/SKILL.md) |
@@ -98,7 +101,7 @@ pstack は Cursor 向けに作られている。skill は Agent Skills 形式を
 - `/arena` はすべてのワーカーに同じブリーフを与え、最良の部分を統合する。`/swarm` は作業をスライスか競争に分け、レポートを 1 つ返す。
 - `/architect` は設計を決めた直後に実装する。コードを書く前に設計をレビューするには "with checkpoint" を添える。
 - `/interrogate` は diff をレビューする。`/blast-radius` は diff の外側の破損を探し、変更を安全にする 1 つの事実を証明する。
-- `/recall` は最近のチャットをまたいで文脈を組み直す。特定の 1 つのチャットやブランチを再開するのは Session pickup プレイブックだ。
+- `/recall` は最近のチャットをまたいで文脈を組み直す。`/ketchup` はユーザの前回のメッセージ以降のこのチャットだけを扱う。特定の 1 つのチャットやブランチを再開するのは Session pickup プレイブックだ。
 - `/figure-it-out` は 1 回の厳密な実行を設計する。Orchestrate プレイブックは何日もかかり多くの PR にまたがるプログラムを走らせる。Autonomous run プレイブックは 1 つのタスクを完了条件まで駆動する。
 
 pstack に無いもの:

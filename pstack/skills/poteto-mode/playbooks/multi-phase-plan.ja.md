@@ -4,7 +4,7 @@
 
 1. 変更が 1 つか 2 つのファイルで、アプローチが自明なら、プランは省く。そう述べて止まる。
 2. 書き始める前に、未解決の問いはプロトタイプで決着させる。それぞれについて `playbooks/prototype.md` を実行する。ブランチ、SHA、スクリーンショットを Appendix A のために保持する。オペレータに聞くのは、どんな実行でも決着しないプロダクト上・好み上の判断だけにする。選択肢を提示する (**never-block-on-the-human** の principle skill)。
-3. `subagent_type: "poteto-agent"` のサブエージェントで、Subagents セクションに従って明示的にモデルを指定して探索する (**guard-the-context-window** の principle skill)。各サブエージェントはファイルへのポインタ、規約、テストコマンド、エントリポイントを返す。インライン展開したダンプは返さない。
+3. `subagent_type: "poteto-agent"` のサブエージェントで、Subagents セクションに従って明示的にモデルを指定して探索する (**guard-the-context-window** の principle skill)。サブエージェントごとの推論レベルと fast か標準かの速度は、Subagents セクションに従い、ジョブに合わせて選ぶ。各サブエージェントはファイルへのポインタ、規約、テストコマンド、エントリポイントを返す。インライン展開したダンプは返さない。
 4. 下のスケルトンをプランファイルへコピーし、すべてのプレースホルダを埋める。オペレータがパスを指定しない限り、ファイルはエージェントストアの `docs/` 配下に書く。すべての見出しとすべてのサブブロックを、示された順序のまま保つ。1 PR につき 1 セクション。1 PR は、それ自身の証拠を伴う 1 つの変更である (**sequence-verifiable-units** の principle skill)。**How to read this** に実行 playbook を名指しする。`playbooks/autopilot-full.md` と `playbooks/autopilot-stack.md` のどちらを選ぶかは、`playbooks/autopilot-stack.md` の末尾にあるルールに従う。常設プログラムは `playbooks/orchestrate.md` を取る。
 5. `/technical-writing` に従って全文を書き、その後 `/unslop` をかける。本文は Diátaxis の 1 モード、how-to である。付録が explanation と reference を持つ。各見出しはタスクか発見を述べる。長いダッシュを使わない。文中のコロンを使わない。
 6. `node pstack/skills/poteto-mode/scripts/check-plan.mjs <plan.md>` を実行し、出力された行をすべて修正する (**encode-lessons-in-structure** の principle skill)。
@@ -62,8 +62,8 @@ Tests alone are not sufficient verification. A PR is verified only when its unit
 
 ### Verdict and merge, for every PR
 
-- [ ] At the code-ready head SHA and at each later push that changes the patch, run the swarm per `pstack/skills/swarm/SKILL.md`. One gates lane. The ten live lanes from the PR's **Verify, live** block. The perf lane from its **Verify, perf** block. Two or more audit lanes, each with its own focus, that read the diff and the receipts and distrust the PR body. The root audits the receipts in the merge-ready report before the verdict.
-- [ ] Clean only when every lane is `PASS`. Findings go back to the owner, including a defect that a lane filed as a note. A new head gets a fresh swarm and a fresh verdict, except for results that stay valid under the patch-id rule in `playbooks/shipping.md`.
+- [ ] A full swarm runs once, at the code-ready head. Another full swarm runs only for new behavior, a redesign, or a large new diff. A rebase, a merge-conflict resolution, or a minor fix gets a single verifier at the new head. Run each full swarm per `pstack/skills/swarm/SKILL.md`. One gates lane. The ten live lanes from the PR's **Verify, live** block. The perf lane from its **Verify, perf** block. Two or more audit lanes, each with its own focus, that read the diff and the receipts and distrust the PR body. The root audits the receipts in the merge-ready report before the verdict.
+- [ ] Clean only when every lane is `PASS`. Findings go back to the owner, including a defect that a lane filed as a note. A new head gets a fresh verdict, except for results that stay valid under the patch-id rule in `playbooks/shipping.md`.
 - [ ] <The merge or append rule from the execution playbook, with the patch-id rule from `playbooks/shipping.md`.>
 
 ### Boot recipe, for every live lane

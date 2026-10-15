@@ -18,8 +18,8 @@
 - Convergence (収束): 2 名以上のレビュワーが同じことを言っている findings は確度が高い。単独の findings は他の基準でより高いハードルを越えなければならない。
 - Decision-changing (判断が変わる): その編集によって将来のエージェントの行動が変わること。読むテキストが増えるだけではだめだ。
 - Structural-mechanism check (構造的メカニズムの確認): lint ルール、スクリプト、メタデータのフラグ、ランタイムのチェックが既にそのルールを強制している、または安価に強制できるなら Backlog に回す。skill の散文は、メカニズムで強制できないもののためにある。
-- Skill-was-used (skill が使われたか): 親が transcript の中で実際に呼び出した skill・ツール・MCP に紐づく findings だけを受け入れる。使われるべきだったのに使われなかった skill については、次回発火するよう `tune description: <skill path>` に回す。どちらでもないなら `skill-not-used` として却下する。
-- Already-covered (既にカバー済み): body の編集行を受け入れる前に、対象の skill を読め。提案が明確で適切な位置にある既存のガイダンスの重複なら、`already-covered` として却下する。問題は skill ではなく実行のほうだ。既存のガイダンスが埋もれている、弱い、読み飛ばされやすいなら、その行は受け入れるが、提案を「発火させるための文言 / 配置の改善」として組み直す (重複した追記ではなく)。
+- Skill-was-used (skill が使われたか): 親が transcript の中で呼び出した skill・ツール・MCP に紐づく findings だけを受け入れる。使われるべきだったのに使われなかった skill については `tune description: <skill path>` に回す。どちらでもないなら `skill-not-used` として却下する。
+- Already-covered (既にカバー済み): body の編集行を受け入れる前に、対象の skill を読め。提案が明確で適切な位置にある既存のガイダンスの重複なら、問題は skill ではなく実行のほうなので、`already-covered` として却下する。既存のガイダンスが埋もれている、弱い、読み飛ばされやすいなら、その行は受け入れるが、提案を「発火させるための文言 / 配置の改善」として組み直す (重複した追記ではなく)。
 
 Drop (drift する実装詳細):
 - 「SHA `bd91aa7` の linter は chars/4 のヒューリスティックを使う」

@@ -33,6 +33,8 @@ fork せよ。改善せよ。自分のものにせよ。PR は歓迎だ!
 
 タスクの開始時に [`/poteto-mode`](./skills/poteto-mode/SKILL.md) を使う。リクエストを読み、playbook の集合から 1 つを選び、手順が必要とするタイミングで他の skill を実行する。
 
+タスクを打ち込む前に `/` メニューから `/poteto-mode` を選ぶと、cursor がその skill をメッセージに添付する。
+
 ### とにかく [`/poteto-mode`](./skills/poteto-mode/SKILL.md) を使え
 
 この skill が主要なショートカットだ。エージェントに厳密なエンジニアリング作業をさせたいときは常にこれを使う。23 本の playbook が付属する:
@@ -111,9 +113,12 @@ morning.
 |---|---|
 | [`/poteto-mode`](./skills/poteto-mode/SKILL.md) | 自明でないあらゆるタスクの既定の入口。 |
 | [`/poteto-help`](./skills/poteto-help/SKILL.md) | pstack がはじめて、またはどの skill、playbook、原則が合うか分からないとき。何をしようとしているかを聞き出し、その部分に答え、打ち込むプロンプトを渡す。`/poteto-help` と打ったときだけ動く。 |
+| [`/in-your-own-words`](./skills/in-your-own-words/SKILL.md) | エージェントが着手する前に、あなたの目標と問題を言い直して聞かせてほしいとき。`/in-your-own-words` と打ったときだけ走る。 |
+| [`/sharpen`](./skills/sharpen/SKILL.md) | タスクを、一流の専門家ならそうするやり方で、本当に狙っているものに向けて進めてほしいとき。過剰に仕様化せず、あなたの選択を代わりに決めることもしない。 |
 | [`/how`](./skills/how/SKILL.md) | サブシステムがどう動くのかのウォークスルーが欲しいとき。 |
 | [`/why`](./skills/why/SKILL.md) | 何かがなぜこう作られたのかを知りたいとき。実行時に利用可能な MCP を発見し、証拠のカテゴリごとに並列で問い合わせる (ソース管理、課題トラッカー、長文ドキュメント、リアルタイムチャット、インフラの可観測性、エラートラッキング、分析ウェアハウス)。 |
 | [`/recall`](./skills/recall/SKILL.md) | 作業を始める、または再開するにあたって、あるトピックについての最近のコンテキストを、自分のチャット履歴と共有された記録から再構築し、簡潔な現状ブリーフとして受け取りたいとき。 |
+| [`/ketchup`](./skills/ketchup/SKILL.md) | 直近のメッセージ以降にこのチャットで何が変わったかを、数文の平易な説明と小さな図で受け取りたいとき。各アクション項目には、判断を下すのに足りるだけの文脈を添える。 |
 | [`/blast-radius`](./skills/blast-radius/SKILL.md) | 小さく見える変更があり、他に何を壊しうるかを知りたいとき。安全だと言える根拠となるその 1 つの事実を、主張ではなく実際に動くコードで証明する。 |
 | [`/architect`](./skills/architect/SKILL.md) | 関数境界をまたぐコードをこれから書くので、呼び出し側の使い方、型、モジュールの形を先に固めたいとき。 |
 | [`/arena`](./skills/arena/SKILL.md) | 同じ対象への並列な試行を N 個走らせ、それぞれの最良の部分を取り込みたいとき。 |
@@ -190,11 +195,11 @@ help:              /poteto-help which skill should i use to review this branch?
 
 ## `poteto-agent` と Comment Sicko サブエージェント
 
-pstack は、私のスタイルを端から端まで実行するサブエージェントも同梱している。親エージェントから [`subagent_type: "poteto-agent"`](./agents/poteto-agent.md) で起動する。作業に取りかかる前に、インラインの原則インデックスを含めて `poteto-mode` を全文読む。`generalPurpose` で代用するとその読み込みが飛ばされ、逸脱する。
+[`/poteto-mode`](./skills/poteto-mode/SKILL.md) は、それを受け取ったチャットの中で走る。そのチャットが playbook、todo リスト、すべてのサブエージェントの起動を担う。
 
-[`/poteto-mode`](./skills/poteto-mode/SKILL.md) と [`subagent_type: "poteto-agent"`](./agents/poteto-agent.md) は同じラッパーを経由する。
+pstack は、実行中に起動する委譲先のラッパーとして [`subagent_type: "poteto-agent"`](./agents/poteto-agent.md) も同梱している。作業に取りかかる前に、インラインの原則インデックスを含めて `poteto-mode` を全文読む。`generalPurpose` で代用するとその読み込みが飛ばされ、逸脱する。playbook そのものを走らせるために `poteto-agent` を起動してはならない。
 
-pstack は [Comment Sicko](./agents/comment-sicko.md) も同梱している。`subagent_type: "Comment Sicko"` として使える、読み取り専用のコメントレビュワーだ。通常は直接ではなく [`/no-comments`](./skills/no-comments/SKILL.md) 経由で起動する。
+pstack は [Comment Sicko](./agents/comment-sicko.md) も同梱している。`subagent_type: "comment-sicko"` として使える、読み取り専用のコメントレビュワーだ。通常は直接ではなく [`/no-comments`](./skills/no-comments/SKILL.md) 経由で起動する。
 
 ## 原則
 
@@ -208,7 +213,7 @@ pstack は [Comment Sicko](./agents/comment-sicko.md) も同梱している。`s
 | [laziness-protocol](./skills/principle-laziness-protocol/SKILL.md) | コア | 削除と、問題を解決する最小の変更に倒す。 |
 | [foundational-thinking](./skills/principle-foundational-thinking/SKILL.md) | コア | ロジックを書く前に適用する: 中核の型とデータ構造を選ぶ、足場作りと機能実装の順序を決める、並行アクタが何を共有するのかを問う。データ構造を正しくすれば、下流のコードは自明になる。 |
 | [redesign-from-first-principles](./skills/principle-redesign-from-first-principles/SKILL.md) | コア | 後付けで継ぎ足すのではなく、その要件が初日から基礎的な前提だったかのように再設計する。 |
-| [attack-the-premise](./skills/principle-attack-the-premise/SKILL.md) | コア | 1 つの前提を共有する 2 件以上の修正が同じゲートに失敗したときに適用する。次の修正を書く前に、どのアクタが不均衡を抱えているかを一通り調べ、その前提を仮定した修正をもう 1 本書くのではなく前提そのものを疑う。 |
+| [attack-the-premise](./skills/principle-attack-the-premise/SKILL.md) | コア | 1 つの前提を共有する 2 件以上の修正が同じゲートに失敗したときに適用する。前提を書き出し、その前提を仮定した修正をもう 1 本書く前に、前提そのものを直接テストする。 |
 | [subtract-before-you-add](./skills/principle-subtract-before-you-add/SKILL.md) | コア | まず死荷重、冗長なバリデータ、スタブへの参照を取り除き、それから単純になった土台の上に作る。 |
 | [minimize-reader-load](./skills/principle-minimize-reader-load/SKILL.md) | コア | 問いと答えの間にある層と、読み手の頭の中の隠れた状態を数える。呼び出し元が 1 つだけのラッパーを畳み、ミュータブルなスコープを縮める。 |
 | [outcome-oriented-execution](./skills/principle-outcome-oriented-execution/SKILL.md) | コア | 明示的なフェーズ境界を持つ、計画された書き換えや移行の最中に適用する。目標アーキテクチャへ収束させる。使い捨ての互換コードで滑らかな中間状態を保とうとしない。 |
@@ -222,9 +227,9 @@ pstack は [Comment Sicko](./agents/comment-sicko.md) も同梱している。`s
 | [migrate-callers-then-delete-legacy-apis](./skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md) | アーキテクチャ | 互換レイヤを残すのではなく、呼び出し側の移行と古い API の削除を同じ波で行う。 |
 | [separate-before-serializing-shared-state](./skills/principle-separate-before-serializing-shared-state/SKILL.md) | アーキテクチャ | まず共有そのものを無くす。共有された書き手が 1 つであることが本物の不変条件であるときにのみ、構造的に直列化する。 |
 | [prove-it-works](./skills/principle-prove-it-works/SKILL.md) | 検証 | タスクを完了した後、done を宣言する前に適用する。代理物や自己申告や「コンパイルは通る」ではなく、実物 (機能を動かす、実際の値を読む、diff を検分する) に対して検証する。 |
-| [fix-root-causes](./skills/principle-fix-root-causes/SKILL.md) | 検証 | 各症状を根本原因まで辿り、そこで直す。まず再現し、根本原因に届くまで why を問い、クラッシュを黙らせる nil チェックのガードに抗う。 |
+| [fix-root-causes](./skills/principle-fix-root-causes/SKILL.md) | 検証 | 各症状を、システムが最初に誤った箇所まで辿り、そこで直す。ガードが修正になるのは、それが扱う状態が正当なときだけだ。 |
 | [sequence-verifiable-units](./skills/principle-sequence-verifiable-units/SKILL.md) | 検証 | 多段の作業 (一括処理、移行、似た編集の連続) と、コミットや PR の積み方に適用する。作業を、それぞれが検証可能な状態で終わる小さな単位に分割し、次へ進む前に各単位を確認し、その並び自体がレビュワーに対して自らを証明するように届ける順序を決める。 |
-| [test-behavior-not-implementation](./skills/principle-test-behavior-not-implementation/SKILL.md) | 検証 | テストを書く、変更する、あるいは残すときに適用する。コードはそのユーザと同じ呼び方で呼び、観測される結果を具体的な期待値と照らして assert する。import した関数がすべて undefined を返しても通ってしまうテストなら、assert を書き直すかテストを消す。 |
+| [test-behavior-not-implementation](./skills/principle-test-behavior-not-implementation/SKILL.md) | 検証 | テストを書く、変更する、あるいは残すときに適用する。コードのユーザが観測できるものを assert し、その挙動が壊れたらテストが落ち、内部だけが変わったときは通り続けるようにする。 |
 | [explain-the-number](./skills/principle-explain-the-number/SKILL.md) | 検証 | 測った数値 (高速化、劣化、スループット、レイテンシ、eval の結果) を信じる、報告する、あるいはそれに基づいて行動する前に適用する。何がそれを律速しているかを突き止め、思っている作業とは別のものを測っていないかを排除する。 |
 | [guard-the-context-window](./skills/principle-guard-the-context-window/SKILL.md) | 委譲 | かさばるものはサブエージェントへ回す。メインスレッドには生のペイロードではなく要約を置く。 |
 | [never-block-on-the-human](./skills/principle-never-block-on-the-human/SKILL.md) | 委譲 | 進め、結果を提示し、人間には事後に軌道修正させる。確認は不可逆な操作のために取っておく。 |

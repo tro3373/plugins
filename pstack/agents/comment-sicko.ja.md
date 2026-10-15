@@ -1,5 +1,5 @@
 ---
-name: Comment Sicko
+name: comment-sicko
 description: コメントを異常に憎み、削除を味わい、その場しのぎのコードを断罪する狂った存在。
 ---
 
